@@ -1,6 +1,7 @@
 import './intro.css';
 import './projects.css';
 import './mobile.css';
+import './icons.css';
 
 document.querySelector('#year').textContent = new Date().getFullYear();
 
@@ -205,8 +206,8 @@ const projectData = {
       { title: 'Current stage', text: 'BarberFlow is a functional MVP for a controlled beta. Development continues, guided by client feedback. As a second-year Computer Engineering student at ISEP, I have used the project to deepen my Java Full Stack skills and follow a solution from requirements through implementation and maintenance.' },
     ],
     links: [
-      { label: 'View demo ↗', href: 'https://barberflow-saas-delta.vercel.app/' },
-      { label: 'Source code ↗', href: 'https://github.com/AndreLeal-L2/barberflow-saas' },
+      { label: 'View demo', href: 'https://barberflow-saas-delta.vercel.app/' },
+      { label: 'Source code', href: 'https://github.com/AndreLeal-L2/barberflow-saas' },
     ],
   },
   commerce: {
@@ -270,7 +271,7 @@ const projectData = {
       { title: 'Passenger features', text: 'Search routes between stations, compare journey time and price, apply an active pass discount, simulate cash payment with change, and view QR tickets and travel history.' },
       { title: 'Administration features', text: 'Import network maps from XML files or XML/JSON APIs, manage users and role permissions, maintain the cash register, and review import history and usage statistics.' },
     ],
-    links: [{ label: 'Source code ↗', href: 'https://github.com/AndreLeal-L2/CatWay' }],
+    links: [{ label: 'Source code', href: 'https://github.com/AndreLeal-L2/CatWay' }],
   },
 };
 const projectDialog = document.querySelector('#project-dialog');
@@ -294,9 +295,19 @@ document.querySelectorAll('.project-detail').forEach(button => button.addEventLi
     details.append(article);
   });
   const links = document.querySelector('#project-dialog-links'); links.replaceChildren();
-  (data.links || [{ label: 'Visit my GitHub profile ↗', href: 'https://github.com/AndreLeal-L2' }]).forEach((link, index) => {
+  (data.links || [{ label: 'Visit my GitHub profile', href: 'https://github.com/AndreLeal-L2' }]).forEach((link, index) => {
     const a = document.createElement('a'); a.className = index === 0 ? 'button button-dark' : 'underlined-link';
-    a.textContent = link.label; a.href = link.href; a.target = '_blank'; a.rel = 'noopener noreferrer'; links.append(a);
+    a.textContent = link.label;
+    const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    icon.setAttribute('class', 'icon');
+    icon.setAttribute('viewBox', '0 0 24 24');
+    icon.setAttribute('aria-hidden', 'true');
+    icon.setAttribute('focusable', 'false');
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', 'M7 17 17 7M7 7h10v10');
+    icon.append(path);
+    a.append(icon);
+    a.href = link.href; a.target = '_blank'; a.rel = 'noopener noreferrer'; links.append(a);
   });
   projectDialog.showModal();
   projectDialog.scrollTop = 0;

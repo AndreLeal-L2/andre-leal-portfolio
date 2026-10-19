@@ -1,0 +1,29 @@
+/* Decorative SVGs keep the same monochrome shapes on every platform. */
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  flex: none;
+  vertical-align: -0.125em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.contact-asterisk .icon {
+  display: block;
+  vertical-align: 0;
+  stroke-width: 1.35;
+}
+
+.skills-marquee i .icon {
+  vertical-align: middle;
+}
+
+.contact-links a,
+footer a,
+#intro-scroll {
+  column-gap: 0.45em;
+}
