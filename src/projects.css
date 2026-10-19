@@ -1,6 +1,16 @@
 .barberflow-project{grid-template-columns:1.05fr 1fr;align-items:start}
-.barberflow-art{display:block;margin-top:5px;background:#0e1210;box-shadow:5px 5px 0 #29392f12}
-.barberflow-art img{aspect-ratio:1348/926;object-fit:contain}
+.barberflow-preview{margin:5px 0 0;min-width:0;overflow:hidden;border:1px solid #a9b8e3;border-radius:6px;background:#f5f7ff;box-shadow:5px 5px 0 #3d57bf15}
+.barberflow-preview-toolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;padding:12px 14px;border-bottom:1px solid #dbe2f4}
+.barberflow-preview-label{font:9px var(--mono);letter-spacing:.7px;color:#46547c}
+.barberflow-preview-switch{display:flex;gap:4px}
+.barberflow-preview-switch button{min-height:40px;padding:9px 12px;border:1px solid transparent;border-radius:4px;background:transparent;color:#34415f;font-size:12px}
+.barberflow-preview-switch button:hover{border-color:#b7c4e8}
+.barberflow-preview-switch button[aria-pressed="true"]{background:#3b55c5;color:#fff}
+.barberflow-preview figcaption{padding:12px 14px;font:11px/1.6 var(--mono);color:#46547c;border-top:1px solid #dbe2f4}
+.barberflow-art{display:block;margin:0;border:0;border-radius:0;background:#fff;box-shadow:none}
+.barberflow-art img{aspect-ratio:16/9;object-fit:contain}
+.barberflow-project:hover .barberflow-art img{transform:none}
+@media(max-width:760px){.barberflow-preview-toolbar{padding:10px 12px;gap:8px}.barberflow-preview-label{font-size:9px}.barberflow-preview-switch button{min-height:44px;font-size:12px;padding:10px}.barberflow-preview figcaption{padding:11px 12px}}
 .project-title-row{display:flex;flex-wrap:wrap;gap:13px 20px;align-items:center}
 .project-title-row h3{white-space:nowrap}.project-title-row h3>span{font-size:25px}
 .project-status{display:inline-flex;align-items:center;gap:8px;font:8px var(--mono);letter-spacing:.5px;border:1px solid var(--line);border-radius:3px;padding:7px 9px;white-space:nowrap}

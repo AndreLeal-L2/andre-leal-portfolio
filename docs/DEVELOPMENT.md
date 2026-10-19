@@ -43,7 +43,7 @@ Relative asset URLs support project repositories and repository renames. The Pag
 - `public/Andre_Leal_CV.pdf`: original CV selected by the user.
 - `public/assets/`: 3D assets, the BarberFlow public landing page screenshot and the labelled Travel Manager concept illustration.
 
-The BarberFlow image comes from its [public source repository](https://github.com/AndreLeal-L2/barberflow-saas/blob/main/docs/screenshots/barberflow-home.jpg). Project links point to the actual repository and demo.
+The BarberFlow previews are captures of its [deployed public website](https://barberflow-saas-delta.vercel.app/). The agenda is the public demonstration with sample data, rather than a signed-in owner dashboard. Project links point to the actual repository and demo.
 
 
 See [third-party credits and licenses](../THIRD_PARTY_LICENSES.md) for asset attribution.

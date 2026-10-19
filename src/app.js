@@ -4,6 +4,28 @@ import './mobile.css';
 
 document.querySelector('#year').textContent = new Date().getFullYear();
 
+const barberflowPreviews = {
+  home: {
+    src: 'barberflow-home-current.jpg',
+    alt: 'Current BarberFlow website with its blue and white branding and online booking introduction',
+    caption: 'Current public website',
+  },
+  agenda: {
+    src: 'barberflow-product-current.jpg',
+    alt: 'BarberFlow public product preview showing its daily agenda with sample appointments',
+    caption: 'Public agenda demo · Sample data',
+  },
+};
+const barberflowPreviewButtons = document.querySelectorAll('[data-barberflow-view]');
+barberflowPreviewButtons.forEach(button => button.addEventListener('click', () => {
+  const preview = barberflowPreviews[button.dataset.barberflowView];
+  const image = document.querySelector('#barberflow-preview-image');
+  image.src = `${import.meta.env.BASE_URL}assets/${preview.src}`;
+  image.alt = preview.alt;
+  document.querySelector('#barberflow-preview-note').textContent = preview.caption;
+  barberflowPreviewButtons.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+}));
+
 const menuButton = document.querySelector('.menu-toggle');
 const mobileNav = document.querySelector('#mobile-nav');
 function closeMenu() { mobileNav.hidden = true; menuButton.setAttribute('aria-expanded', 'false'); menuButton.setAttribute('aria-label', 'Open navigation'); }
