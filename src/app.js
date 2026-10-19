@@ -26,6 +26,38 @@ barberflowPreviewButtons.forEach(button => button.addEventListener('click', () =
   barberflowPreviewButtons.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
 }));
 
+const catwayPreviews = {
+  home: {
+    alt: 'CatWay overview rendered from the original JavaFX views, with journey cards and the metro network map',
+    title: 'overview',
+    caption: 'Overview · Original JavaFX view · Demo data',
+  },
+  routes: {
+    alt: 'CatWay route search rendered from SearchRoute.fxml, with station selectors, a sample route and the original metro map',
+    title: 'route search',
+    caption: 'Route search · Original JavaFX view · Demo data',
+  },
+  login: {
+    alt: 'CatWay login rendered from Login.fxml, with email and password fields, registration and password recovery links',
+    title: 'login',
+    caption: 'Login · Original JavaFX view',
+  },
+};
+const catwayPreviewButtons = document.querySelectorAll('[data-catway-view]');
+catwayPreviewButtons.forEach(button => button.addEventListener('click', () => {
+  const view = button.dataset.catwayView;
+  const preview = catwayPreviews[view];
+  const source = `${import.meta.env.BASE_URL}assets/catway-${view}.webp`;
+  const image = document.querySelector('#catway-preview-image');
+  image.src = source;
+  image.alt = preview.alt;
+  const link = document.querySelector('#catway-preview-link');
+  link.href = source;
+  link.setAttribute('aria-label', `Open the full-size CatWay ${preview.title} view`);
+  document.querySelector('#catway-preview-note').textContent = preview.caption;
+  catwayPreviewButtons.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+}));
+
 const menuButton = document.querySelector('.menu-toggle');
 const mobileNav = document.querySelector('#mobile-nav');
 function closeMenu() { mobileNav.hidden = true; menuButton.setAttribute('aria-expanded', 'false'); menuButton.setAttribute('aria-label', 'Open navigation'); }
@@ -230,7 +262,16 @@ const projectData = {
     ],
     links: [],
   },
-  travel: { title: 'Travel manager', description: 'An academic desktop project developed during my Higher Technical Diploma in Agile Software Development at ISEP. The application manages travel and integrates authentication, user roles and external APIs using Java and JavaFX. The illustration is a concept visual, rather than a screenshot of the application.', tags: ['Java', 'JavaFX', 'External APIs', 'Authentication'] },
+  travel: {
+    title: 'CatWay · Travel manager',
+    description: 'An academic desktop application for planning metro journeys and managing a transport network. Built with Java 24 and JavaFX, CatWay connects to SQL Server and REST APIs for network data, travel passes and QR tickets.',
+    tags: ['Java 24', 'JavaFX', 'SQL Server', 'REST APIs'],
+    sections: [
+      { title: 'Passenger features', text: 'Search routes between stations, compare journey time and price, apply an active pass discount, simulate cash payment with change, and view QR tickets and travel history.' },
+      { title: 'Administration features', text: 'Import network maps from XML files or XML/JSON APIs, manage users and role permissions, maintain the cash register, and review import history and usage statistics.' },
+    ],
+    links: [{ label: 'Source code ↗', href: 'https://github.com/AndreLeal-L2/CatWay' }],
+  },
 };
 const projectDialog = document.querySelector('#project-dialog');
 document.querySelectorAll('.project-detail').forEach(button => button.addEventListener('click', () => {

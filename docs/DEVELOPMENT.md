@@ -19,6 +19,8 @@ The production output is `dist/`. The site is static and needs no database or en
 
 ## Publish on GitHub Pages
 
+GitHub Pages is the production destination for this portfolio and the default for all future deployment requests. The source repository is `AndreLeal-L2/andre-leal-portfolio`; the deployment preference is also recorded in the root `AGENTS.md`.
+
 The workflow in `.github/workflows/deploy-pages.yml` builds and publishes the site on every push to `main`. It uses `npm ci` and `npm run build`; no personal access token or deployment secret is required.
 
 1. Push this project to a public GitHub repository.
@@ -26,9 +28,9 @@ The workflow in `.github/workflows/deploy-pages.yml` builds and publishes the si
 3. Open **Actions → Deploy portfolio to GitHub Pages → Run workflow** for the first deployment, or push a new commit to `main`.
 4. The completed deployment shows the public site URL in the `github-pages` environment.
 
-For `AndreLeal-L2/andre-leal-portfolio`, the expected address is `https://andreleal-l2.github.io/andre-leal-portfolio/`. It becomes available after Pages is enabled and the workflow completes.
+The production address is `https://andreleal-l2.github.io/andre-leal-portfolio/`. After each publication, wait for the workflow to succeed and confirm the updated content at that address.
 
-Relative asset URLs support project repositories and repository renames. The Pages workflow sets `PORTFOLIO_SITE_URL` from GitHub's Pages configuration so the Open Graph and structured-data URLs match the deployment. For another host, this build-time variable is optional; its default retains the existing Site URL.
+Relative asset URLs support project repositories and repository renames. The Pages workflow sets `PORTFOLIO_SITE_URL` from GitHub's Pages configuration so the Open Graph and structured-data URLs match the deployment. Local builds default to the production GitHub Pages URL. Legacy `.openai/` metadata is local and is excluded from the GitHub repository.
 
 ## Edit content
 
@@ -41,7 +43,7 @@ Relative asset URLs support project repositories and repository renames. The Pag
 - `src/intro.css`: fixed full-screen introduction, boot screen and 200vh scroll sequence.
 - `src/mobile.css`: touch controls, larger mobile typography and project detail sheets.
 - `public/Andre_Leal_CV.pdf`: original CV selected by the user.
-- `public/assets/`: 3D assets, the BarberFlow public landing page screenshot and the labelled Travel Manager concept illustration.
+- `public/assets/`: 3D assets, BarberFlow screenshots and the CatWay previews rendered from the project's original JavaFX views. See [CatWay preview sources](CATWAY_PREVIEWS.md).
 
 The BarberFlow previews are captures of its [deployed public website](https://barberflow-saas-delta.vercel.app/). The agenda is the public demonstration with sample data, rather than a signed-in owner dashboard. Project links point to the actual repository and demo.
 
