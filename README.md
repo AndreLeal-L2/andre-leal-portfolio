@@ -1,53 +1,41 @@
-# André Leal — Portfolio
+# André Leal
 
-An English-language portfolio based on `CV_Andre_Leal_FullStack_EN_.pdf`, with professional experience, academic projects, education, contact links, a downloadable CV and the original reference site's scroll-driven retro computer animation.
+**Junior Full Stack Developer · Porto, Portugal**
 
-## Run locally
+[Explore my portfolio](https://andreleal-l2.github.io/andre-leal-portfolio/) · [View my CV](https://andreleal-l2.github.io/andre-leal-portfolio/Andre_Leal_CV.pdf) · [Connect on LinkedIn](https://www.linkedin.com/in/andregsleal/)
 
-Use Node.js 24 (also declared in `.nvmrc`).
+I enjoy turning everyday business problems into useful software. My work brings together web development, integrations and an interest in how people will use what I build.
 
-```sh
-npm install
-npm run dev
-```
+I'm a second-year Computer Engineering student at ISEP and a graduate of its Higher Technical Diploma in Agile Software Development. Alongside my studies, I'm deepening my skills in Java, Spring Boot and Angular through practical projects.
 
-```sh
-npm run build
-npm run preview
-```
+## A conversation that became a project
 
-The production output is `dist/`. The site is static and needs no database or environment variables.
+**BarberFlow** started with a conversation with a barber about managing appointments through messages and a manual diary.
 
-## Publish on GitHub Pages
+I built a platform where barbershops can set their services and availability, let customers book online and manage appointments in a private dashboard. It's a functional MVP for a controlled beta, with development continuing through client feedback.
 
-The workflow in `.github/workflows/deploy-pages.yml` builds and publishes the site on every push to `main`. It uses `npm ci` and `npm run build`; no personal access token or deployment secret is required.
+[Try the demo](https://barberflow-saas-delta.vercel.app/) · [Explore the project](https://github.com/AndreLeal-L2/barberflow-saas)
 
-1. Push this project to a public GitHub repository.
-2. In the repository, open **Settings → Pages** and select **GitHub Actions** as the source.
-3. Open **Actions → Deploy portfolio to GitHub Pages → Run workflow** for the first deployment, or push a new commit to `main`.
-4. The completed deployment shows the public site URL in the `github-pages` environment.
+## Experience with real business needs
 
-For `AndreLeal-L2/andre-leal-portfolio`, the expected address is `https://andreleal-l2.github.io/andre-leal-portfolio/`. It becomes available after Pages is enabled and the workflow completes.
+During my **Full Stack Development internship at Escolhadigital**, from March to June 2026, I contributed to:
 
-Relative asset URLs support project repositories and repository renames. The Pages workflow sets `PORTFOLIO_SITE_URL` from GitHub's Pages configuration so the Open Graph and structured-data URLs match the deployment. For another host, this build-time variable is optional; its default retains the existing Site URL.
+- Online stores with purchase flows adapted to each client's commercial rules.
+- Product data preparation and validation before transferring it between business systems.
+- Shipping integrations and maintenance of existing web applications.
 
-## Edit content
+I also prepared documentation, demonstrated changes to clients and tested work before delivery. This experience taught me to understand the complete business flow, work carefully with existing software and explain my decisions clearly.
 
-- `index.html`: portfolio copy, navigation, work experience and contacts.
-- `src/style.css`: layout, colours and responsive styles.
-- `src/app.js`: navigation, accessible dialogs and terminal commands.
-- `src/scene.js`: Three.js retro computer scene.
-- `src/crt-screen.js`: animated phosphor display, bloom, scanlines and terminal screen.
-- `public/assets/andre-portrait.png`: André's supplied portrait, displayed inside the CRT on the welcome screen.
-- `src/intro.css`: fixed full-screen introduction, boot screen and 200vh scroll sequence.
-- `src/mobile.css`: touch controls, larger mobile typography and project detail sheets.
-- `public/Andre_Leal_CV.pdf`: original CV selected by the user.
-- `public/assets/`: 3D assets, the BarberFlow public landing page screenshot and the labelled Travel Manager concept illustration.
+[See my professional experience](https://andreleal-l2.github.io/andre-leal-portfolio/#experience)
 
-The BarberFlow image comes from its [public source repository](https://github.com/AndreLeal-L2/barberflow-saas/blob/main/docs/screenshots/barberflow-home.jpg). Project links point to the actual repository and demo.
+## My next step
 
-## Credits
+I'm looking for a **junior full stack development opportunity** where I can contribute to real products, learn from an experienced team and keep growing as a developer.
 
-Inspired by [Ed Hinrichsen's portfolio](https://edh.dev/). The retro computer model and accompanying original assets are reused from the [MIT-licensed source repository](https://github.com/edhinrichsen/retro-computer-website). See `THIRD_PARTY_LICENSES.md` for attribution.
+I'd be glad to talk about my projects or learn more about your team.
 
-No personal content, portrait, professional experience or projects belonging to Ed Hinrichsen are presented as André's work.
+[Email me](mailto:andreleal.epg@gmail.com) · [LinkedIn](https://www.linkedin.com/in/andregsleal/) · [GitHub](https://github.com/AndreLeal-L2)
+
+---
+
+The portfolio's retro computer experience is adapted from [Ed Hinrichsen's MIT-licensed project](https://github.com/edhinrichsen/retro-computer-website). [Credits and licenses](THIRD_PARTY_LICENSES.md) · [Development guide](docs/DEVELOPMENT.md)
