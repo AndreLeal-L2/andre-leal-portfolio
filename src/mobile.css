@@ -1,0 +1,90 @@
+/* Mobile readability and touch controls; the retro scene keeps its choreography. */
+@media(max-width:760px){
+  html{scroll-padding-top:92px}
+  body{ -webkit-text-size-adjust:100%;text-size-adjust:100% }
+  .site-header{top:max(12px,env(safe-area-inset-top));left:max(14px,env(safe-area-inset-left));right:max(14px,env(safe-area-inset-right));gap:10px;opacity:1;transform:none;pointer-events:auto}
+  .site-header .wordmark{display:flex;align-items:center;justify-content:center;min-width:48px;min-height:44px;background:#525252;color:var(--paper);border:1px solid var(--paper);font:700 24px var(--mono);letter-spacing:-3px;padding:0 7px;box-shadow:4px 4px 0 #52525240}
+  .wordmark span{color:var(--paper)}
+  .menu-toggle{width:46px;height:44px;flex:none}
+  .header-cv{min-height:44px;font-size:8px;padding:11px 12px;gap:9px}
+  .mobile-nav{top:54px;left:0;width:100%;max-width:none;max-height:calc(100svh - 90px - env(safe-area-inset-top));overflow-y:auto;overscroll-behavior:contain;padding:10px 20px;font-size:11px}
+  .mobile-nav a{display:flex;align-items:center;min-height:52px;padding:14px 0;border-bottom:1px solid #f6d4b133}
+  .mobile-nav a:last-child{border-bottom:0}
+  #intro-scroll{left:max(14px,env(safe-area-inset-left));bottom:max(16px,env(safe-area-inset-bottom));transform:none;min-height:44px;display:flex;align-items:center;justify-content:center;padding:10px 17px;font-size:13px}
+  .terminal-launcher{right:max(14px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));width:auto;height:auto;min-height:44px;clip-path:none;overflow:visible;background:#525252;color:var(--paper);border:1px solid var(--paper);box-shadow:4px 4px 0 #52525240;padding:10px 12px;font:12px var(--mono)}
+  html[data-intro="false"] .terminal-launcher{display:none}
+  body.terminal-focused #intro-scroll,body.terminal-focused .terminal-launcher{visibility:hidden}
+  .section{padding:48px 6%}
+  .section-label{font-size:9px;line-height:1.7;margin-bottom:28px}
+  .section h2{font-size:clamp(34px,9.6vw,43px);line-height:1.08;letter-spacing:-1.6px}
+  .about-grid,.education-grid{gap:26px}
+  .about-copy p{font-size:15px;line-height:1.75}
+  .about-copy .lead{font-size:21px;line-height:1.5}
+  .section-heading>p,.education-intro{font-size:14px;line-height:1.75}
+  .quick-facts{gap:20px;margin-top:28px}
+  .fact-label{font-size:9px}.quick-facts strong{font-size:14px;line-height:1.6}.quick-facts small{font-size:11px}
+  .featured-experience{padding:24px 18px}
+  .experience-body p,.experience-body ul{font-size:14px;line-height:1.75}
+  .experience-body h4{font-size:21px;line-height:1.3}
+  .experience-body li{margin-bottom:14px}
+  .date{font-size:10px;line-height:1.7}.experience-type{font-size:9px;line-height:1.7}
+  summary{min-height:48px;width:min(100%,240px);font-size:14px}
+  .tags span{font-size:10px;padding:6px 8px;line-height:1.5}
+  .underlined-link{min-height:44px;font-size:13px;gap:18px}
+  .experience-cv{font-size:13px}
+  .project-index{font-size:9px;line-height:1.7}
+  .project-info>p:not(.project-index),.project-highlights{font-size:14px;line-height:1.75}
+  .project-info>p.project-hook{font-size:19px;line-height:1.5}
+  .project-info>p.project-stage{font-size:13px}
+  .project-status{font-size:9px;line-height:1.5;padding:8px 10px}
+  .project-title-row h3{white-space:normal;font-size:30px}
+  .project-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px;margin-top:20px}
+  .project-info .project-actions .underlined-link{font-size:13px;margin-top:0;padding:10px 0;min-height:48px}
+  .project-actions .project-detail{grid-column:1/-1;justify-content:flex-start}
+  .internship-projects{scroll-margin-top:0}
+  .internship-heading>p{font-size:14px;line-height:1.75}
+  .case-study{padding:24px 20px}
+  .case-flow{font-size:10px;padding:14px 12px;margin-bottom:20px}
+  .case-stage{font-size:10px;line-height:1.6}
+  .case-study h4{font-size:27px;line-height:1.15}
+  .case-study>p{font-size:14px;line-height:1.75;margin-top:15px}
+  .case-study .tags{padding-top:18px}
+  .case-study .tags span{font-size:10px;padding:5px 7px}
+  .case-study .underlined-link{font-size:13px;min-height:48px;margin-top:15px}
+  .projects-footer>span{font-size:13px;line-height:1.7}
+  .education-list p{font-size:14px;line-height:1.7}.study-status{font-size:10px;line-height:1.7}
+  .toolbox-grid p{font-size:14px;line-height:1.85}
+  .tool-icon{height:auto;min-height:120px;width:48px}
+  .contact-section{padding:26px 6% 0}
+  .contact-top{flex-wrap:wrap;gap:16px}.contact-top>span{font-size:9px;line-height:1.6}
+  .contact-main h2{font-size:clamp(42px,11.8vw,58px);letter-spacing:-2px}
+  .contact-main>p{font-size:14px;line-height:1.75}
+  .contact-email{max-width:100%;font-size:clamp(14px,4.2vw,19px);gap:12px;min-height:44px;overflow-wrap:anywhere}
+  .contact-links{flex-wrap:wrap;gap:6px 22px;margin-top:16px;font-size:13px}
+  .contact-links a{min-height:44px;display:flex;align-items:center}
+  footer{font-size:9px;gap:10px;padding-bottom:max(22px,env(safe-area-inset-bottom))}
+  footer a{min-height:44px;display:flex;align-items:center}
+  footer>a:nth-child(2){font-size:9px;line-height:1.8}
+  .project-dialog{width:calc(100% - 16px);max-width:520px;max-height:92svh;margin:auto auto 0;padding:24px 22px max(28px,env(safe-area-inset-bottom));border-radius:14px 14px 0 0;overscroll-behavior:contain}
+  .project-dialog>.project-close{width:44px;height:44px;margin:-10px -8px 0 10px;top:0;font-size:28px}
+  #project-dialog-label{font-size:10px;letter-spacing:.6px;line-height:1.8;padding-right:0}
+  .project-dialog h2{font-size:30px;line-height:1.12;letter-spacing:-1px;margin-top:22px;clear:both}
+  .project-dialog>p:not(.eyebrow),#project-dialog-details p,#project-dialog-details ul{font-size:14px;line-height:1.75}
+  #project-dialog-details h3{font-size:22px;line-height:1.3}
+  #project-dialog-details section{padding-top:22px;margin-top:22px}
+  .project-dialog-links{align-items:stretch;gap:12px}
+  .project-dialog-links a{min-height:48px;font-size:13px}
+  .project-dialog-links .button{width:100%}
+  .terminal-content{font-size:13px;max-height:65svh;overscroll-behavior:contain}
+  .terminal-content input{font-size:16px}
+}
+@media(max-width:360px){
+  .site-header{left:10px;right:10px;gap:7px}.header-cv{font-size:7px;padding:10px;gap:6px}
+  .section{padding-left:5%;padding-right:5%}.featured-experience{padding:22px 15px}
+  .case-study{padding:23px 17px}.project-dialog{padding-left:18px;padding-right:18px}
+  .terminal-launcher{font-size:11px;padding:10px}#intro-scroll{font-size:12px;padding:10px 13px}
+}
+@media(max-height:500px) and (max-width:950px){
+  .mobile-nav{max-height:calc(100svh - 80px)}.mobile-nav a{min-height:44px;padding:10px 0}
+  .project-dialog{max-height:90svh}
+}
