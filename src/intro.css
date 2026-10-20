@@ -5,7 +5,7 @@ html,body{background:#f6d4b1}
 .sr-only,.crt-command{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
 .crt-command{position:fixed!important;top:0;left:0;margin:0!important;opacity:0;font-size:16px}
 .hero{height:200vh;min-height:0;max-height:none;display:block;padding:0;overflow:visible;background:#f6d4b1}
-#computer-scene{position:fixed;inset:0;width:100%;height:100%;z-index:1;transition:none;outline:none;background:#f6d4b1}
+#computer-scene{position:fixed;inset:0 0 auto;width:100%;height:100vh;height:100lvh;z-index:1;transition:none;outline:none;background:#f6d4b1}
 #computer-scene canvas{display:block;width:100%;height:100%;cursor:grab;touch-action:pan-y}
 #computer-scene canvas:active{cursor:grabbing}
 .scene-backup{position:absolute;inset:0;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:25px;max-width:680px;margin:auto;padding:30px}

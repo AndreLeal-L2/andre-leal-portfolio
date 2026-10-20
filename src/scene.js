@@ -53,18 +53,17 @@ export async function initScene() {
     renderer = new THREE.WebGLRenderer({ antialias: false });
     const pixelRatio = () => Math.min(window.devicePixelRatio || 1,
       window.matchMedia('(max-width: 760px), (pointer: coarse)').matches ? 1.5 : 2);
-    renderer.setPixelRatio(pixelRatio());
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.domElement.setAttribute('aria-label', 'Retro computer showing André Leal’s portrait. Drag to look around, or type to use the terminal.');
     container.append(renderer.domElement);
 
-    let viewHeight = document.documentElement.clientHeight;
-    let scroll = window.scrollY / viewHeight;
     const sizes = {
-      width: document.documentElement.clientWidth,
-      height: window.innerHeight,
-      portraitOffset: mapClamped(window.innerHeight / document.documentElement.clientWidth, [0.75, 1.75], [0, 2]),
+      width: container.clientWidth,
+      height: container.clientHeight,
     };
+    sizes.portraitOffset = mapClamped(sizes.height / sizes.width, [0.75, 1.75], [0, 2]);
+    let targetScroll = THREE.MathUtils.clamp(window.scrollY / sizes.height, 0, 2);
+    let scroll = targetScroll;
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0xf6d4b1);
@@ -74,7 +73,7 @@ export async function initScene() {
     camera.position.set(0, 0, -2.5);
     camera.rotation.set(-Math.PI, 0, Math.PI);
     scene.add(camera);
-    renderer.setSize(sizes.width, sizes.height);
+    renderer.setDrawingBufferSize(sizes.width, sizes.height, pixelRatio());
 
     const loadingManager = new THREE.LoadingManager();
     loadingManager.onProgress = (url, loaded, total) => {
@@ -152,32 +151,40 @@ export async function initScene() {
     });
 
     listen(window, 'scroll', () => {
-      scroll = window.scrollY / viewHeight;
+      targetScroll = THREE.MathUtils.clamp(window.scrollY / sizes.height, 0, 2);
     }, { passive: true });
     listen(window, 'resize', () => {
-      viewHeight = document.documentElement.clientHeight;
-      const widthChanged = sizes.width !== document.documentElement.clientWidth;
-      sizes.width = document.documentElement.clientWidth;
-      sizes.height = window.innerHeight;
-      // Keep framing steady when browser chrome or the keyboard changes height.
-      if (widthChanged) sizes.portraitOffset = mapClamped(sizes.height / sizes.width, [0.75, 1.75], [0, 2]);
-      scroll = window.scrollY / viewHeight;
+      // CSS keeps this viewport stable while mobile browser toolbars retract.
+      // Do not reallocate the drawing buffer for unchanged dimensions.
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+      const ratio = pixelRatio();
+      if (sizes.width === width && sizes.height === height && renderer.getPixelRatio() === ratio) return;
+      sizes.width = width;
+      sizes.height = height;
+      sizes.portraitOffset = mapClamped(height / width, [0.75, 1.75], [0, 2]);
+      targetScroll = THREE.MathUtils.clamp(window.scrollY / height, 0, 2);
+      scroll = targetScroll;
       camera.aspect = sizes.width / sizes.height;
       camera.updateProjectionMatrix();
-      renderer.setPixelRatio(pixelRatio());
-      renderer.setSize(sizes.width, sizes.height);
+      renderer.setDrawingBufferSize(width, height, ratio);
     }, { passive: true });
 
     const cameraTarget = new THREE.Vector3(0, 0, 0);
     let previousTime = performance.now();
     const startTime = previousTime;
+    let previousOpacity = -1;
 
     function render(time) {
       if (stopped) return;
       animationFrame = requestAnimationFrame(render);
-      const delta = (time - previousTime) / 1000;
+      const delta = Math.min((time - previousTime) / 1000, 0.05);
       previousTime = time;
       const elapsed = (time - startTime) / 1000;
+      // Touch events can arrive less often than display frames. Follow the
+      // latest position with the same short response at every refresh rate.
+      scroll = THREE.MathUtils.damp(scroll, targetScroll, 20, delta);
+      if (Math.abs(scroll - targetScroll) < 0.0001) scroll = targetScroll;
       const zoom = mapClamped(scroll, [0, 1], [0, 1]);
 
       camera.position.z = mapClamped(scroll, [0, 1], [-2.5 - sizes.portraitOffset, -10 - sizes.portraitOffset]);
@@ -186,12 +193,15 @@ export async function initScene() {
       computer.rotation.y = Math.PI * 0.2 * zoom;
       computer.rotation.z = sizes.portraitOffset > 0.5 ? mapClamped(scroll, [0, 1], [-Math.PI / 2, 0]) : 0;
 
-      camera.position.x = computerParallax.x * mapClamped(scroll, [0, 1], [0.2, 5]) * 0.1 + camera.position.x * 0.9;
-      camera.position.y = computerParallax.y * mapClamped(scroll, [0, 1], [0.2, 1.5]) * 0.1 + camera.position.y * 0.9;
+      camera.position.x = THREE.MathUtils.damp(camera.position.x, computerParallax.x * mapClamped(scroll, [0, 1], [0.2, 5]), 6, delta);
+      camera.position.y = THREE.MathUtils.damp(camera.position.y, computerParallax.y * mapClamped(scroll, [0, 1], [0.2, 1.5]), 6, delta);
       camera.lookAt(cameraTarget);
       const opacity = mapClamped(scroll, [1.25, 1.75], [1, 0]);
-      container.style.opacity = String(opacity);
-      container.style.pointerEvents = opacity === 0 ? 'none' : '';
+      if (opacity !== previousOpacity) {
+        container.style.opacity = String(opacity);
+        container.style.pointerEvents = opacity === 0 ? 'none' : '';
+        previousOpacity = opacity;
+      }
 
       if (crtMesh.morphTargetInfluences) {
         crtMesh.morphTargetInfluences[0] = mapClamped(zoom, [0, 0.1], [0.5, 0]);

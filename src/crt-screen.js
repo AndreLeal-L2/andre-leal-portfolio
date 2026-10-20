@@ -370,10 +370,11 @@ export async function createCRTScreen(renderer) {
     if (disposed) return;
     if (startTime === undefined) startTime = elapsed;
     const time = Math.max(0, elapsed - startTime);
-    // Once the intro has finished typing, only the caret changes on the canvas.
-    // CRT noise, scanlines, bloom and phosphor lag still render every frame.
+    // Bloom depends only on the canvas content. Cache its composition between
+    // changes; noise, scanlines and phosphor lag remain animated every frame.
     const frame = Math.floor(time * (!terminalMode && time < 4 ? 24 : 2));
-    if (dirty || frame !== lastCanvasFrame) {
+    const contentChanged = dirty || frame !== lastCanvasFrame;
+    if (contentChanged) {
       draw(time);
       lastCanvasFrame = frame;
     }
@@ -385,7 +386,7 @@ export async function createCRTScreen(renderer) {
     renderer.autoClear = true;
     renderer.toneMapping = THREE.NoToneMapping;
     renderer.setClearColor(0x000000, 1);
-    composer.render(delta);
+    if (contentChanged) composer.render(delta);
     lagPass.material.uniforms.uDiffuse.value = composer.readBuffer.texture;
     lagPass.render(renderer);
     copyPass.render(renderer);
