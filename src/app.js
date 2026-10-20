@@ -1,7 +1,6 @@
-import './intro.css';
-import './projects.css';
-import './mobile.css';
-import './icons.css';
+import { initProjectTours } from './project-tours.js';
+
+initProjectTours();
 
 document.querySelector('#year').textContent = new Date().getFullYear();
 
@@ -14,7 +13,7 @@ const barberflowPreviews = {
   agenda: {
     src: 'barberflow-product-current.jpg',
     alt: 'BarberFlow public product preview showing its daily agenda with sample appointments',
-    caption: 'Public agenda demo · Sample data',
+    caption: 'Illustrative agenda preview · Sample data',
   },
 };
 const barberflowPreviewButtons = document.querySelectorAll('[data-barberflow-view]');
@@ -99,7 +98,7 @@ const responses = {
   whoami: 'André Guilherme Leal\nJunior Full Stack Developer · Porto, Portugal\nE-commerce, API integrations and automation.\nInternship at Escolhadigital · March–June 2026\nCTeSP graduate · Computer Engineering student at ISEP\nPortuguese: native · English: C1',
   skills: 'Backend: Java, Spring Boot, Node.js, PHP, Python, CodeIgniter\nFrontend: Angular, TypeScript, JavaScript, HTML/CSS, jQuery\nData: PostgreSQL, MySQL/MariaDB, SQL Server\nIntegration: REST, GraphQL, OAuth 2.0, Webhooks\nTools: Docker, Postman, Playwright, Vitest, Git, GitHub Actions',
   contact: 'Email: andreleal.epg@gmail.com\nLinkedIn: linkedin.com/in/andregsleal\nGitHub: github.com/AndreLeal-L2',
-  education: '2026–Present · Computer Engineering, ISEP (second year)\n2024–2026 · Agile Software Development, ISEP (CTeSP completed)\n2021–2024 · Electronics, Automation & Computers, Escola Profissional Gaia',
+  education: '2026–Present · Computer Engineering, ISEP (degree in progress)\n2024–2026 · Agile Software Development, ISEP (CTeSP completed)\n2021–2024 · Electronics, Automation & Computers, Escola Profissional Gaia',
 };
 const history = [];
 let historyPosition = 0;
@@ -149,7 +148,7 @@ crtInput.addEventListener('keydown', e => {
   updateCRTInput();
 });
 document.addEventListener('keydown', e => {
-  if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey || e.key.length !== 1 || window.scrollY > window.innerHeight * 1.25 || document.querySelector('dialog[open]')) return;
+  if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey || e.key === ' ' || e.key.length !== 1 || window.scrollY > window.innerHeight * 1.25 || document.querySelector('dialog[open]')) return;
   const target = e.target;
   if (target instanceof HTMLElement && (target.matches('input,textarea,select,button,a') || target.isContentEditable)) return;
   if (!document.querySelector('#computer-scene').classList.contains('scene-ready')) return;
@@ -159,28 +158,87 @@ document.addEventListener('keydown', e => {
 function updateIntroState() {
   document.documentElement.dataset.scroll = String(window.scrollY > 10);
   document.documentElement.dataset.intro = String(window.scrollY < window.innerHeight * 1.25);
-  const scene = document.querySelector('#computer-scene');
-  scene.style.pointerEvents = window.scrollY > window.innerHeight * 1.75 ? 'none' : '';
   if (window.scrollY > window.innerHeight * 1.5 && document.activeElement === crtInput) crtInput.blur();
 }
 updateIntroState();
 window.addEventListener('scroll', updateIntroState, { passive: true });
 window.addEventListener('resize', updateIntroState, { passive: true });
 const bootOverlay = document.querySelector('#scene-loading');
+const enableSceneButton = document.querySelector('#enable-scene');
+const terminalButton = document.querySelector('#open-terminal');
+const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+let sceneEpoch = 0;
+let sceneState = 'idle';
+let sceneDispose;
+let sceneTimeout;
 function finishBoot(failed = false) {
+  clearTimeout(sceneTimeout);
   if (failed) document.body.classList.add('scene-failed');
-  document.querySelector('#scene-loading-progress').style.transform = 'scaleX(1)';
-  document.querySelector('#scene-loading-status').textContent = failed ? 'Starting the accessible portfolio…' : 'Nearly there…';
-  setTimeout(() => bootOverlay.classList.add('is-loaded'), 200);
-  setTimeout(() => { bootOverlay.hidden = true; }, 500);
+  bootOverlay.hidden = true;
+}
+function showStaticIntro() {
+  sceneState = 'static';
+  document.body.classList.add('scene-static');
+  terminalButton.hidden = true;
+  enableSceneButton.hidden = motionPreference.matches;
+  finishBoot();
+}
+function stopScene() {
+  sceneEpoch++;
+  window.dispatchEvent(new CustomEvent('portfolio-scene-stop'));
+  sceneDispose?.();
+  sceneDispose = undefined;
+  showStaticIntro();
+}
+async function startScene() {
+  if (motionPreference.matches || sceneState === 'loading' || sceneState === 'ready') return;
+  const attempt = ++sceneEpoch;
+  sceneState = 'loading';
+  document.body.classList.remove('scene-static', 'scene-failed');
+  enableSceneButton.hidden = true;
+  bootOverlay.hidden = false;
+  document.querySelector('#scene-loading-progress').style.transform = 'scaleX(.02)';
+  document.querySelector('#scene-loading-status').textContent = 'Loading the 3D scene. You can browse the portfolio now.';
+  // The page is already usable. Offer the static introduction if loading stalls.
+  sceneTimeout = setTimeout(stopScene, 6000);
+  try {
+    const { initScene } = await import('./scene.js');
+    if (attempt !== sceneEpoch || motionPreference.matches) return;
+    const cleanup = await initScene();
+    if (attempt !== sceneEpoch) cleanup?.();
+    else sceneDispose = cleanup;
+  } catch (error) {
+    if (attempt !== sceneEpoch) return;
+    console.warn('3D scene unavailable; the portfolio remains accessible.', error);
+    document.querySelector('#computer-scene').classList.add('scene-unavailable');
+    showStaticIntro();
+    finishBoot(true);
+  }
 }
 window.addEventListener('portfolio-scene-progress', e => {
   const { loaded, total } = e.detail;
   document.querySelector('#scene-loading-progress').style.transform = `scaleX(${total ? loaded / total : 0})`;
-  document.querySelector('#scene-loading-status').textContent = `${loaded} of ${total} files loaded`;
+  document.querySelector('#scene-loading-status').textContent = `Loading the optional 3D scene: ${loaded} of ${total} files.`;
 });
-window.addEventListener('portfolio-scene-ready', () => finishBoot());
-window.addEventListener('portfolio-scene-error', () => finishBoot(true));
+window.addEventListener('portfolio-scene-ready', () => {
+  sceneState = 'ready';
+  terminalButton.hidden = false;
+  finishBoot();
+});
+window.addEventListener('portfolio-scene-static', showStaticIntro);
+window.addEventListener('portfolio-scene-error', () => { showStaticIntro(); finishBoot(true); });
+enableSceneButton.addEventListener('click', startScene);
+motionPreference.addEventListener('change', event => {
+  if (event.matches) stopScene();
+  else if (sceneState === 'static') enableSceneButton.hidden = false;
+});
+document.querySelectorAll('[data-skip-intro]').forEach(link => link.addEventListener('click', stopScene));
+document.addEventListener('click', event => {
+  const link = event.target.closest('a[href]');
+  if (sceneState !== 'loading' || !link) return;
+  const url = new URL(link.href);
+  if (url.origin === location.origin && url.pathname === location.pathname && url.hash && url.hash !== '#home') stopScene();
+});
 terminalInput.addEventListener('keydown', e => {
   if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
     e.preventDefault(); historyPosition = Math.max(0, Math.min(history.length, historyPosition + (e.key === 'ArrowUp' ? -1 : 1)));
@@ -203,10 +261,10 @@ const projectData = {
         'Delivering email notifications through a Transactional Outbox with retries.',
       ] },
       { title: 'Testing and delivery', text: 'JUnit, Mockito, Testcontainers and Vitest support the project’s evolution. Docker and GitHub Actions pipelines cover tests, builds and security analysis with CodeQL and Trivy.' },
-      { title: 'Current stage', text: 'BarberFlow is a functional MVP for a controlled beta. Development continues, guided by client feedback. As a second-year Computer Engineering student at ISEP, I have used the project to deepen my Java Full Stack skills and follow a solution from requirements through implementation and maintenance.' },
+      { title: 'Current stage', text: 'BarberFlow is a functional MVP for a controlled beta. Development continues, guided by client feedback. As a Computer Engineering student at ISEP, I have used the project to deepen my Java Full Stack skills and follow a solution from requirements through implementation and maintenance.' },
     ],
     links: [
-      { label: 'View demo', href: 'https://barberflow-saas-delta.vercel.app/' },
+      { label: 'Open website', href: 'https://barberflow-saas-delta.vercel.app/' },
       { label: 'Source code', href: 'https://github.com/AndreLeal-L2/barberflow-saas' },
     ],
   },
@@ -264,10 +322,13 @@ const projectData = {
     links: [],
   },
   travel: {
-    title: 'CatWay · Travel manager',
-    description: 'An academic desktop application for planning metro journeys and managing a transport network. Built with Java 24 and JavaFX, CatWay connects to SQL Server and REST APIs for network data, travel passes and QR tickets.',
+    title: 'CatWay · Metro travel manager',
+    label: 'ACADEMIC TEAM PROJECT · LP3 / GROUP 4',
+    description: 'A desktop application developed as an LP3 team project (Group 4) for planning metro journeys and managing a transport network. Built with Java 24 and JavaFX, CatWay connects to SQL Server and REST APIs for network data, travel passes and QR tickets.',
     tags: ['Java 24', 'JavaFX', 'SQL Server', 'REST APIs'],
     sections: [
+      { title: 'Project context', text: 'Developed in a team during my Higher Technical Diploma in Agile Software Development. The features below describe the shared application.' },
+      { title: 'Evaluation and setup', text: 'The quick walkthrough uses original JavaFX views rendered in isolation with sample data. Running the complete application requires SQL Server and external services; the repository does not include the database creation schema or those services.' },
       { title: 'Passenger features', text: 'Search routes between stations, compare journey time and price, apply an active pass discount, simulate cash payment with change, and view QR tickets and travel history.' },
       { title: 'Administration features', text: 'Import network maps from XML files or XML/JSON APIs, manage users and role permissions, maintain the cash register, and review import history and usage statistics.' },
     ],
@@ -323,8 +384,7 @@ const observer = new IntersectionObserver(entries => {
 }, { rootMargin: '-15% 0px -65% 0px', threshold: 0 });
 document.querySelectorAll('main section[id]').forEach(section => observer.observe(section));
 
-import('./scene.js').then(({ initScene }) => initScene()).catch(error => {
-  console.warn('3D scene unavailable; using the accessible fallback.', error);
-  document.querySelector('#computer-scene').classList.add('scene-unavailable');
-  finishBoot(true);
-});
+if (motionPreference.matches || (location.hash && location.hash !== '#home')) showStaticIntro();
+else requestAnimationFrame(() => requestAnimationFrame(() => {
+  if (sceneState === 'idle') startScene();
+}));

@@ -6,7 +6,7 @@
 
 I enjoy turning everyday business problems into useful software. My work brings together web development, integrations and an interest in how people will use what I build.
 
-I'm a second-year Computer Engineering student at ISEP and a graduate of its Higher Technical Diploma in Agile Software Development. Alongside my studies, I'm deepening my skills in Java, Spring Boot and Angular through practical projects.
+I'm a Computer Engineering student at ISEP and a graduate of its Higher Technical Diploma in Agile Software Development. Alongside my studies, I'm deepening my skills in Java, Spring Boot and Angular through practical projects.
 
 ## A conversation that became a project
 
@@ -14,7 +14,15 @@ I'm a second-year Computer Engineering student at ISEP and a graduate of its Hig
 
 I built a platform where barbershops can set their services and availability, let customers book online and manage appointments in a private dashboard. It's a functional MVP for a controlled beta, with development continuing through client feedback.
 
-[Try the demo](https://barberflow-saas-delta.vercel.app/) · [Explore the project](https://github.com/AndreLeal-L2/barberflow-saas)
+[Open the website](https://barberflow-saas-delta.vercel.app/) · [Explore the project](https://github.com/AndreLeal-L2/barberflow-saas)
+
+## CatWay: academic teamwork
+
+**CatWay** is an LP3 team project (Group 4), developed during my Higher Technical Diploma in Agile Software Development. The Java 24 / JavaFX application covers metro routes, simulated cash payments, QR tickets, passes and administration through SQL Server and external APIs.
+
+The portfolio includes a guided preview of the original JavaFX views with sample data. These captures do not validate the complete runtime. The repository documents its external dependencies; the database creation schema and API services are not included.
+
+[Explore CatWay](https://github.com/AndreLeal-L2/CatWay) · [Open the portfolio walkthrough](https://andreleal-l2.github.io/andre-leal-portfolio/#catway)
 
 ## Experience with real business needs
 

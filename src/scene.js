@@ -14,6 +14,19 @@ function mapClamped(value, from, to) {
 export async function initScene() {
   const container = document.querySelector('#computer-scene');
   if (!container || container.dataset.initialized) return;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const showStatic = () => {
+    container.classList.remove('scene-ready', 'scene-unavailable');
+    container.classList.add('scene-static');
+    container.style.opacity = '';
+    container.style.pointerEvents = '';
+    window.dispatchEvent(new CustomEvent('portfolio-scene-static'));
+  };
+  if (reducedMotion.matches) {
+    showStatic();
+    return;
+  }
+  container.classList.remove('scene-static');
   container.dataset.initialized = 'true';
 
   let renderer;
@@ -22,6 +35,7 @@ export async function initScene() {
   let bakedTexture;
   let floorTexture;
   let environmentTexture;
+  let loadedModel;
   let shellMaterial;
   let shadowMaterial;
   let animationFrame;
@@ -34,6 +48,7 @@ export async function initScene() {
   }
 
   function dispose() {
+    if (stopped) return;
     stopped = true;
     cancelAnimationFrame(animationFrame);
     cleanups.splice(0).forEach(cleanup => cleanup());
@@ -44,10 +59,41 @@ export async function initScene() {
     shellMaterial?.dispose();
     shadowMaterial?.dispose();
     computer?.traverse(object => object.geometry?.dispose());
+    releaseModel(loadedModel);
     renderer?.dispose();
     renderer?.domElement.remove();
     delete container.dataset.initialized;
   }
+
+  function releaseModel(model) {
+    model?.scene.traverse(object => {
+      object.geometry?.dispose();
+      const materials = Array.isArray(object.material) ? object.material : [object.material];
+      materials.forEach(material => material?.dispose());
+    });
+  }
+
+  function managedLoad(promise, retain, release) {
+    return promise.then(resource => {
+      if (stopped) {
+        release(resource);
+        return null;
+      }
+      retain(resource);
+      return resource;
+    });
+  }
+
+  const stopForStatic = () => {
+    dispose();
+    showStatic();
+  };
+  // Register before loading so an opt-out or preference change also cancels
+  // initialization. Late loader results are released by managedLoad.
+  listen(window, 'portfolio-scene-stop', stopForStatic);
+  listen(reducedMotion, 'change', event => {
+    if (event.matches) stopForStatic();
+  });
 
   try {
     renderer = new THREE.WebGLRenderer({ antialias: false });
@@ -56,10 +102,14 @@ export async function initScene() {
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.domElement.setAttribute('aria-label', 'Retro computer showing André Leal’s portrait. Drag to look around, or type to use the terminal.');
     container.append(renderer.domElement);
+    listen(renderer.domElement, 'webglcontextlost', event => {
+      event.preventDefault();
+      stopForStatic();
+    });
 
     const sizes = {
-      width: container.clientWidth,
-      height: container.clientHeight,
+      width: Math.max(1, container.clientWidth),
+      height: Math.max(1, container.clientHeight),
     };
     sizes.portraitOffset = mapClamped(sizes.height / sizes.width, [0.75, 1.75], [0, 2]);
     let targetScroll = THREE.MathUtils.clamp(window.scrollY / sizes.height, 0, 2);
@@ -75,22 +125,36 @@ export async function initScene() {
     scene.add(camera);
     renderer.setDrawingBufferSize(sizes.width, sizes.height, pixelRatio());
 
+    const syncViewport = () => {
+      const width = Math.max(1, container.clientWidth);
+      const height = Math.max(1, container.clientHeight);
+      const ratio = pixelRatio();
+      if (sizes.width === width && sizes.height === height && renderer.getPixelRatio() === ratio) return;
+      sizes.width = width;
+      sizes.height = height;
+      sizes.portraitOffset = mapClamped(height / width, [0.75, 1.75], [0, 2]);
+      targetScroll = THREE.MathUtils.clamp(window.scrollY / height, 0, 2);
+      scroll = targetScroll;
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setDrawingBufferSize(width, height, ratio);
+    };
+
     const loadingManager = new THREE.LoadingManager();
     loadingManager.onProgress = (url, loaded, total) => {
+      if (stopped) return;
       window.dispatchEvent(new CustomEvent('portfolio-scene-progress', { detail: { url, loaded, total } }));
     };
     const textureLoader = new THREE.TextureLoader(loadingManager);
-    const [gltf, bake, floor, environment, screen] = await Promise.all([
-      new GLTFLoader(loadingManager).loadAsync(`${ASSETS}retro-computer.glb`),
-      textureLoader.loadAsync(`${ASSETS}computer-bake.jpg`),
-      textureLoader.loadAsync(`${ASSETS}computer-floor.jpg`),
-      new THREE.CubeTextureLoader(loadingManager).loadAsync(['px', 'nx', 'py', 'ny', 'pz', 'nz'].map(side => `${ASSETS}environmentMap/${side}.jpg`)),
-      createCRTScreen(renderer),
+    const [gltf] = await Promise.all([
+      managedLoad(new GLTFLoader(loadingManager).loadAsync(`${ASSETS}retro-computer.glb`), model => { loadedModel = model; }, releaseModel),
+      managedLoad(textureLoader.loadAsync(`${ASSETS}computer-bake.jpg`), texture => { bakedTexture = texture; }, texture => texture.dispose()),
+      managedLoad(textureLoader.loadAsync(`${ASSETS}computer-floor.jpg`), texture => { floorTexture = texture; }, texture => texture.dispose()),
+      managedLoad(new THREE.CubeTextureLoader(loadingManager).loadAsync(['px', 'nx', 'py', 'ny', 'pz', 'nz'].map(side => `${ASSETS}environmentMap/${side}.jpg`)), texture => { environmentTexture = texture; }, texture => texture.dispose()),
     ]);
-    bakedTexture = bake;
-    floorTexture = floor;
-    environmentTexture = environment;
-    crtScreen = screen;
+    if (stopped) return;
+    await managedLoad(createCRTScreen(renderer), screen => { crtScreen = screen; }, screen => screen.dispose());
+    if (stopped) return;
     bakedTexture.flipY = false;
     bakedTexture.colorSpace = THREE.SRGBColorSpace;
     floorTexture.flipY = false;
@@ -156,18 +220,7 @@ export async function initScene() {
     listen(window, 'resize', () => {
       // CSS keeps this viewport stable while mobile browser toolbars retract.
       // Do not reallocate the drawing buffer for unchanged dimensions.
-      const width = container.clientWidth;
-      const height = container.clientHeight;
-      const ratio = pixelRatio();
-      if (sizes.width === width && sizes.height === height && renderer.getPixelRatio() === ratio) return;
-      sizes.width = width;
-      sizes.height = height;
-      sizes.portraitOffset = mapClamped(height / width, [0.75, 1.75], [0, 2]);
-      targetScroll = THREE.MathUtils.clamp(window.scrollY / height, 0, 2);
-      scroll = targetScroll;
-      camera.aspect = sizes.width / sizes.height;
-      camera.updateProjectionMatrix();
-      renderer.setDrawingBufferSize(width, height, ratio);
+      syncViewport();
     }, { passive: true });
 
     const cameraTarget = new THREE.Vector3(0, 0, 0);
@@ -212,19 +265,19 @@ export async function initScene() {
       renderer.render(scene, camera);
     }
 
+    // Rotation, browser resizing or scroll may have happened while assets
+    // loaded, before the normal interaction listeners were installed.
+    syncViewport();
+    targetScroll = THREE.MathUtils.clamp(window.scrollY / sizes.height, 0, 2);
+    scroll = targetScroll;
     render(previousTime);
     container.classList.remove('scene-unavailable');
     container.classList.add('scene-ready');
     window.dispatchEvent(new CustomEvent('portfolio-scene-ready'));
 
-    listen(canvas, 'webglcontextlost', event => {
-      event.preventDefault();
-      dispose();
-      container.classList.remove('scene-ready');
-      container.classList.add('scene-unavailable');
-    });
     return dispose;
   } catch (error) {
+    if (stopped) return;
     dispose();
     container.classList.remove('scene-ready');
     container.classList.add('scene-unavailable');

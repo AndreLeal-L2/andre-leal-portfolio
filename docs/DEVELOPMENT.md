@@ -40,7 +40,10 @@ Relative asset URLs support project repositories and repository renames. The Pag
 - `src/scene.js`: Three.js retro computer scene.
 - `src/crt-screen.js`: animated phosphor display, bloom, scanlines and terminal screen.
 - `public/assets/andre-portrait.png`: André's supplied portrait, displayed inside the CRT on the welcome screen.
-- `src/intro.css`: fixed full-screen introduction, boot screen and 200vh scroll sequence.
+- `src/intro.css`: fixed full-screen scene and 200vh scroll sequence.
+- `src/recruiter.css`: immediately visible profile, optional loading status and static introduction.
+- `src/project-tours.js` / `src/project-tours.css`: accessible project walkthroughs.
+- `design/social-preview.html`: source for the 1200 × 630 sharing image.
 - `src/mobile.css`: touch controls, larger mobile typography and project detail sheets.
 - `public/Andre_Leal_CV.pdf`: original CV selected by the user.
 - `public/assets/`: 3D assets, BarberFlow screenshots and the CatWay previews rendered from the project's original JavaFX views. See [CatWay preview sources](CATWAY_PREVIEWS.md).
@@ -49,3 +52,5 @@ The BarberFlow previews are captures of its [deployed public website](https://ba
 
 
 See [third-party credits and licenses](../THIRD_PARTY_LICENSES.md) for asset attribution.
+
+See [recruiter-facing changes and verification](RECRUITER_UPDATES.md) for progressive loading, reduced motion and walkthrough details.
