@@ -8,7 +8,7 @@ The scene honours `prefers-reduced-motion`: the app does not import it in reduce
 
 BarberFlow and CatWay have keyboard-accessible “Quick walkthrough” dialogs using the existing project images. Each guide identifies its sources and sample data. The BarberFlow link is named “Open website”; the guide explains that the private dashboard requires account creation and setup. The guide is a visual overview, not a running backend demo.
 
-CatWay is identified as an LP3 team project, Group 4. Its setup requirements and missing database creation SQL/services are explicit. The original FXML previews remain isolated renders, not proof of the full runtime. No individual modules are attributed without the owner's confirmation. Academic copy states that the degree is in progress without inferring the reason for entry into a particular year; the original CV is unchanged.
+CatWay is identified as an LP3 team project, Group 4. Its setup requirements and missing database creation SQL/services are explicit. The original FXML previews remain isolated renders, not proof of the full runtime. On 21 October 2026, the owner confirmed that all CatWay group members developed the application collaboratively and that entry into the second year of Computer Engineering was through credit transfer. The portfolio, walkthrough, terminal and README now reflect those details without attributing individual modules. The original CV is unchanged.
 
 ## Sharing
 

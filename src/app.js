@@ -95,10 +95,10 @@ document.querySelectorAll('dialog').forEach(dialog => dialog.addEventListener('c
 
 const responses = {
   help: 'Available commands:\n  whoami       A little about André\n  experience   Professional journey\n  projects     Selected projects\n  skills       My development toolbox\n  education    My academic background\n  contact      Get in touch\n  cv           Download my CV\n  home         Return to the welcome screen\n  clear        Clear the terminal',
-  whoami: 'André Guilherme Leal\nJunior Full Stack Developer · Porto, Portugal\nE-commerce, API integrations and automation.\nInternship at Escolhadigital · March–June 2026\nCTeSP graduate · Computer Engineering student at ISEP\nPortuguese: native · English: C1',
+  whoami: 'André Guilherme Leal\nJunior Full Stack Developer · Porto, Portugal\nE-commerce, API integrations and automation.\nInternship at Escolhadigital · March–June 2026\nCTeSP graduate · Second-year Computer Engineering student at ISEP\nEntry through credit transfer\nPortuguese: native · English: C1',
   skills: 'Backend: Java, Spring Boot, Node.js, PHP, Python, CodeIgniter\nFrontend: Angular, TypeScript, JavaScript, HTML/CSS, jQuery\nData: PostgreSQL, MySQL/MariaDB, SQL Server\nIntegration: REST, GraphQL, OAuth 2.0, Webhooks\nTools: Docker, Postman, Playwright, Vitest, Git, GitHub Actions',
   contact: 'Email: andreleal.epg@gmail.com\nLinkedIn: linkedin.com/in/andregsleal\nGitHub: github.com/AndreLeal-L2',
-  education: '2026–Present · Computer Engineering, ISEP (degree in progress)\n2024–2026 · Agile Software Development, ISEP (CTeSP completed)\n2021–2024 · Electronics, Automation & Computers, Escola Profissional Gaia',
+  education: '2026–Present · Computer Engineering, ISEP (second year; entry through credit transfer)\n2024–2026 · Agile Software Development, ISEP (CTeSP completed)\n2021–2024 · Electronics, Automation & Computers, Escola Profissional Gaia',
 };
 const history = [];
 let historyPosition = 0;
@@ -327,7 +327,7 @@ const projectData = {
     description: 'A desktop application developed as an LP3 team project (Group 4) for planning metro journeys and managing a transport network. Built with Java 24 and JavaFX, CatWay connects to SQL Server and REST APIs for network data, travel passes and QR tickets.',
     tags: ['Java 24', 'JavaFX', 'SQL Server', 'REST APIs'],
     sections: [
-      { title: 'Project context', text: 'Developed in a team during my Higher Technical Diploma in Agile Software Development. The features below describe the shared application.' },
+      { title: 'Collaborative development', text: 'Developed during my Higher Technical Diploma in Agile Software Development. All group members worked collaboratively across the application. The features below describe our shared work.' },
       { title: 'Evaluation and setup', text: 'The quick walkthrough uses original JavaFX views rendered in isolation with sample data. Running the complete application requires SQL Server and external services; the repository does not include the database creation schema or those services.' },
       { title: 'Passenger features', text: 'Search routes between stations, compare journey time and price, apply an active pass discount, simulate cash payment with change, and view QR tickets and travel history.' },
       { title: 'Administration features', text: 'Import network maps from XML files or XML/JSON APIs, manage users and role permissions, maintain the cash register, and review import history and usage statistics.' },

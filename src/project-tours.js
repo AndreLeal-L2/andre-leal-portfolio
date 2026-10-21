@@ -34,7 +34,7 @@ const tours = [
     id: 'catway',
     mount: '#catway .project-info',
     title: 'CatWay',
-    context: 'LP3 · Group 4 academic project. Explore the original JavaFX views.',
+    context: 'LP3 · Group 4 academic project. Built collaboratively by all group members.',
     note: 'These original FXML views were rendered with sample data and their controllers disabled. The complete application requires SQL Server schema/data and external map, pass and QR services. The repository does not include the database creation SQL or those services. This preview does not run or validate those workflows.',
     links: [
       { label: 'Read source & setup', href: 'https://github.com/AndreLeal-L2/CatWay' },
