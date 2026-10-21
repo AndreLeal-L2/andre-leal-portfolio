@@ -13,12 +13,7 @@ body.scene-static .hero,body.scene-failed .hero{height:100svh;min-height:540px}
 body.scene-static #computer-scene,body.scene-failed #computer-scene{display:none}
 body.scene-static #intro-scroll,body.scene-failed #intro-scroll{display:none}
 body.scene-static .intro-summary,body.scene-failed .intro-summary{display:block;box-shadow:none}
-#scene-loading{inset:auto 20px 82px auto;width:min(330px,calc(100% - 40px));padding:18px;gap:10px;z-index:4;border:1px solid #f6d4b1;box-shadow:4px 4px 0 #29392f26}
-#scene-loading h2{font:12px/1.5 var(--mono)}
-#scene-loading p{font:12px/1.6 var(--sans);min-height:0}
 #scene-loading a{display:inline-flex;align-items:center;min-height:44px;width:fit-content;border-bottom:1px solid currentColor;font-size:13px}
-#scene-loading .boot-bar{height:6px;border:0;box-shadow:none;padding:0;background:#f6d4b126}
-#scene-loading-progress{transition:none}
 .project-info>p.project-evaluation{font-size:12px;line-height:1.7;color:var(--body);padding-left:13px;border-left:2px solid var(--line);margin-top:20px}
 @media(max-width:760px){
   .intro-summary{left:6%;top:max(90px,calc(100svh - 300px));width:88%;padding:19px 21px}
@@ -27,9 +22,6 @@ body.scene-static .intro-summary,body.scene-failed .intro-summary{display:block;
   .intro-summary>p:not(.eyebrow){font-size:13px}
   .intro-actions{gap:4px 19px;margin-top:10px}
   .intro-actions a{font-size:13px}
-  #scene-loading{right:6%;bottom:calc(335px + env(safe-area-inset-bottom,0px));width:88%;padding:13px 16px}
-  #scene-loading h2{display:none}
-  #scene-loading a{min-height:36px;font-size:12px}
   .project-info>p.project-evaluation{font-size:13px}
   body.scene-static .hero,body.scene-failed .hero{min-height:540px}
 }
@@ -38,10 +30,9 @@ body.scene-static .intro-summary,body.scene-failed .intro-summary{display:block;
   .hero .intro-summary h2{font-size:30px;margin:7px 0}
   .intro-summary .eyebrow{font-size:9px}
   .intro-actions{margin-top:5px}
-  #scene-loading{bottom:25px;right:20px;width:250px}
   body.scene-static .hero,body.scene-failed .hero{min-height:430px}
 }
 @media(prefers-reduced-motion:reduce){
   .hero{height:100svh!important;min-height:540px!important}
-  #computer-scene,#intro-scroll{display:none!important}
+  #computer-scene,#intro-scroll,#scene-loading{display:none!important}
 }

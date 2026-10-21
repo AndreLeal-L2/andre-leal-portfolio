@@ -29,11 +29,11 @@ html[data-scroll="true"] .site-header,.site-header:focus-within,body.scene-faile
 #intro-scroll{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:4;background:#525252;color:#f6d4b1;border:1px solid #f6d4b1;padding:7px 23px;font:12px var(--mono);box-shadow:5px 5px 0 #0007;transition:opacity .3s;display:none}
 html[data-scroll="true"] #intro-scroll{opacity:0;pointer-events:none}
 body.terminal-focused #computer-scene{outline:2px solid #f4bf63;outline-offset:-4px}
-#scene-loading{position:fixed;inset:0;z-index:30;background:#525252;color:#f6d4b1;padding:10vw;display:flex;flex-direction:column;justify-content:center;gap:20px;transition:opacity .3s}
+#scene-loading{position:fixed;inset:0;z-index:30;background:#525252;color:#f6d4b1;padding:10vw;display:flex;flex-direction:column;justify-content:center;gap:16px;transition:opacity .3s}
 #scene-loading h2{font-family:Pixel,var(--mono);font-size:25px;font-weight:400;line-height:1.5}
-#scene-loading p{font-family:var(--mono);font-size:14px;line-height:1.7;min-height:48px;overflow-wrap:anywhere}
+#scene-loading p{font-family:var(--mono);font-size:14px;line-height:1.7;height:64px;overflow:hidden;text-overflow:ellipsis;overflow-wrap:anywhere}
 .boot-bar{position:relative;width:100%;height:64px;border:2px dashed #f6d4b1;box-shadow:2px 2px 0 #525252,6px 6px 0 #f6d4b1b3;padding:3px}
-#scene-loading-progress{height:100%;width:100%;transform:scaleX(.02);transform-origin:left;background:#f6d4b1;transition:transform .2s}
+#scene-loading-progress{height:100%;width:100%;transform:scaleX(0);transform-origin:left;background:#f6d4b1;transition:transform .2s}
 #scene-loading.is-loaded{opacity:0;pointer-events:none}
 @media(max-width:760px){.hero{height:200vh;min-height:0;max-height:none;padding:0;display:block}.site-header{top:18px;left:18px;right:18px;padding:0;height:auto;gap:12px}.menu-toggle{order:-1;width:52px;height:37px;align-items:center;background:#525252;border:1px solid #f6d4b1;box-shadow:5px 5px 0 #52525240}.menu-toggle span{width:18px;background:#f6d4b1}.header-cv{font-size:8px;padding:10px 12px}.mobile-nav{top:48px}.scene-backup h2{font-size:59px}.scene-backup>p:not(.eyebrow){font-size:14px}#scene-loading h2{font-size:20px}#scene-loading p{font-size:12px}}
 @media(orientation:portrait){#intro-scroll{display:block}}

@@ -164,6 +164,9 @@ updateIntroState();
 window.addEventListener('scroll', updateIntroState, { passive: true });
 window.addEventListener('resize', updateIntroState, { passive: true });
 const bootOverlay = document.querySelector('#scene-loading');
+const bootProgress = document.querySelector('#scene-loading-progress');
+const bootStatus = document.querySelector('#scene-loading-status');
+const slowLoadingLink = document.querySelector('#skip-scene-loading');
 const enableSceneButton = document.querySelector('#enable-scene');
 const terminalButton = document.querySelector('#open-terminal');
 const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -171,10 +174,24 @@ let sceneEpoch = 0;
 let sceneState = 'idle';
 let sceneDispose;
 let sceneTimeout;
-function finishBoot(failed = false) {
+let bootFadeTimeout;
+let bootHideTimeout;
+function clearBootTimers() {
   clearTimeout(sceneTimeout);
+  clearTimeout(bootFadeTimeout);
+  clearTimeout(bootHideTimeout);
+}
+function finishBoot(failed = false) {
+  clearBootTimers();
   if (failed) document.body.classList.add('scene-failed');
-  bootOverlay.hidden = true;
+  if (sceneState !== 'ready') {
+    bootOverlay.hidden = true;
+    return;
+  }
+  bootProgress.style.transform = 'scaleX(1)';
+  bootStatus.textContent = 'Nearly there...';
+  bootFadeTimeout = setTimeout(() => bootOverlay.classList.add('is-loaded'), 200);
+  bootHideTimeout = setTimeout(() => { bootOverlay.hidden = true; }, 500);
 }
 function showStaticIntro() {
   sceneState = 'static';
@@ -196,11 +213,18 @@ async function startScene() {
   sceneState = 'loading';
   document.body.classList.remove('scene-static', 'scene-failed');
   enableSceneButton.hidden = true;
+  clearBootTimers();
+  bootOverlay.classList.remove('is-loaded');
   bootOverlay.hidden = false;
-  document.querySelector('#scene-loading-progress').style.transform = 'scaleX(.02)';
-  document.querySelector('#scene-loading-status').textContent = 'Loading the 3D scene. You can browse the portfolio now.';
-  // The page is already usable. Offer the static introduction if loading stalls.
-  sceneTimeout = setTimeout(stopScene, 6000);
+  slowLoadingLink.hidden = true;
+  bootProgress.style.transform = 'scaleX(0)';
+  bootStatus.textContent = 'Starting...';
+  // Keep loading on slow connections; offer an explicit way to skip instead.
+  sceneTimeout = setTimeout(() => {
+    if (attempt !== sceneEpoch || sceneState !== 'loading') return;
+    bootStatus.textContent = 'Still loading...';
+    slowLoadingLink.hidden = false;
+  }, 6000);
   try {
     const { initScene } = await import('./scene.js');
     if (attempt !== sceneEpoch || motionPreference.matches) return;
@@ -216,9 +240,11 @@ async function startScene() {
   }
 }
 window.addEventListener('portfolio-scene-progress', e => {
-  const { loaded, total } = e.detail;
-  document.querySelector('#scene-loading-progress').style.transform = `scaleX(${total ? loaded / total : 0})`;
-  document.querySelector('#scene-loading-status').textContent = `Loading the optional 3D scene: ${loaded} of ${total} files.`;
+  if (sceneState !== 'loading') return;
+  const { url, loaded, total } = e.detail;
+  bootProgress.style.transform = `scaleX(${total ? loaded / total : 0})`;
+  const filename = url ? url.split('/').pop() : '';
+  bootStatus.textContent = `${loaded} of ${total} files loaded${filename ? `: ${filename}` : ''}`;
 });
 window.addEventListener('portfolio-scene-ready', () => {
   sceneState = 'ready';
