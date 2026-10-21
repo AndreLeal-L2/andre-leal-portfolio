@@ -1,9 +1,9 @@
-/* The portfolio remains readable before the optional WebGL scene is ready. */
-.site-header{opacity:1;transform:none;pointer-events:auto}
-.intro-summary{position:absolute;left:5.5%;top:max(100px,calc(100svh - 350px));z-index:3;width:min(390px,89%);padding:25px 28px;background:#f6d4b1f5;border:1px solid var(--line);box-shadow:6px 6px 0 #29392f12}
+/* Keep the original 3D opening clear; show this fallback only without the scene. */
+body.scene-static .site-header{opacity:1;transform:none;pointer-events:auto}
+.intro-summary{display:none;position:absolute;left:5.5%;top:max(100px,calc(100svh - 350px));z-index:3;width:min(390px,89%);padding:25px 28px;background:#f6d4b1f5;border:1px solid var(--line);box-shadow:6px 6px 0 #29392f12}
 .intro-summary .eyebrow{font-size:10px;line-height:1.6;letter-spacing:1px}
-.hero .intro-summary h1{font:500 clamp(34px,3.8vw,52px)/1.05 var(--sans);letter-spacing:-2px;margin:12px 0}
-.intro-summary h1 span{color:var(--accent)}
+.hero .intro-summary h2{font:500 clamp(34px,3.8vw,52px)/1.05 var(--sans);letter-spacing:-2px;margin:12px 0}
+.intro-summary h2 span{color:var(--accent)}
 .intro-summary>p:not(.eyebrow){font-size:13px;line-height:1.7;color:var(--body)}
 .intro-actions{display:flex;align-items:center;flex-wrap:wrap;gap:6px 24px;margin-top:14px}
 .intro-actions a{display:inline-flex;align-items:center;gap:10px;min-height:44px;border-bottom:1px solid var(--ink);font-size:13px}
@@ -12,7 +12,7 @@
 body.scene-static .hero,body.scene-failed .hero{height:100svh;min-height:540px}
 body.scene-static #computer-scene,body.scene-failed #computer-scene{display:none}
 body.scene-static #intro-scroll,body.scene-failed #intro-scroll{display:none}
-body.scene-static .intro-summary,body.scene-failed .intro-summary{box-shadow:none}
+body.scene-static .intro-summary,body.scene-failed .intro-summary{display:block;box-shadow:none}
 #scene-loading{inset:auto 20px 82px auto;width:min(330px,calc(100% - 40px));padding:18px;gap:10px;z-index:4;border:1px solid #f6d4b1;box-shadow:4px 4px 0 #29392f26}
 #scene-loading h2{font:12px/1.5 var(--mono)}
 #scene-loading p{font:12px/1.6 var(--sans);min-height:0}
@@ -22,7 +22,7 @@ body.scene-static .intro-summary,body.scene-failed .intro-summary{box-shadow:non
 .project-info>p.project-evaluation{font-size:12px;line-height:1.7;color:var(--body);padding-left:13px;border-left:2px solid var(--line);margin-top:20px}
 @media(max-width:760px){
   .intro-summary{left:6%;top:max(90px,calc(100svh - 300px));width:88%;padding:19px 21px}
-  .hero .intro-summary h1{font-size:36px;letter-spacing:-1.5px;margin:10px 0}
+  .hero .intro-summary h2{font-size:36px;letter-spacing:-1.5px;margin:10px 0}
   .intro-summary .eyebrow{font-size:9px}
   .intro-summary>p:not(.eyebrow){font-size:13px}
   .intro-actions{gap:4px 19px;margin-top:10px}
@@ -35,7 +35,7 @@ body.scene-static .intro-summary,body.scene-failed .intro-summary{box-shadow:non
 }
 @media(max-height:500px){
   .intro-summary{top:110px;max-width:370px;padding:14px 20px}
-  .hero .intro-summary h1{font-size:30px;margin:7px 0}
+  .hero .intro-summary h2{font-size:30px;margin:7px 0}
   .intro-summary .eyebrow{font-size:9px}
   .intro-actions{margin-top:5px}
   #scene-loading{bottom:25px;right:20px;width:250px}
