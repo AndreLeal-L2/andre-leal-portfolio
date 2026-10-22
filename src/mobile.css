@@ -4,8 +4,8 @@
   html{scroll-padding-top:calc(var(--mobile-header-height) + 16px)}
   body{ -webkit-text-size-adjust:100%;text-size-adjust:100% }
   .site-header{top:0;left:0;right:0;width:100%;height:var(--mobile-header-height);min-height:var(--mobile-header-height);padding:calc(10px + env(safe-area-inset-top,0px)) max(6%,env(safe-area-inset-right,0px)) 10px max(6%,env(safe-area-inset-left,0px));gap:10px;background:var(--paper);border-bottom:1px solid var(--line);box-shadow:0 2px 12px #29392f0d;opacity:1;transform:none;pointer-events:auto}
-  .site-header .wordmark{display:flex;align-items:center;justify-content:center;flex:none;min-width:44px;min-height:44px;background:transparent;color:var(--ink);border:0;font:700 26px var(--mono);letter-spacing:-3px;padding:0 5px;box-shadow:none}
-  .wordmark span{color:var(--accent)}
+  .site-header .wordmark{display:flex;align-items:center;justify-content:center;flex:none;width:48px;min-width:44px;min-height:44px;background:transparent;border:0;padding:0;box-shadow:none}
+  .wordmark .site-logo{display:block;width:48px;height:44px;object-fit:contain}
   .menu-toggle{width:44px;height:44px;flex:none;background:transparent;border:1px solid var(--line);box-shadow:none}
   .menu-toggle span{background:var(--ink)}
   .header-cv{min-height:44px;font:11px/1.4 var(--mono);padding:10px 12px;gap:8px;white-space:nowrap;background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
