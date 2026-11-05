@@ -46,9 +46,9 @@ Relative asset URLs support project repositories and repository renames. The Pag
 - `design/social-preview.html`: source for the 1200 × 630 sharing image.
 - `src/mobile.css`: touch controls, larger mobile typography and project detail sheets.
 - `public/Andre_Leal_CV.pdf`: original CV selected by the user.
-- `public/assets/`: 3D assets, BarberFlow screenshots and the CatWay previews rendered from the project's original JavaFX views. See [CatWay preview sources](CATWAY_PREVIEWS.md).
+- `public/assets/`: 3D assets, Compasso screenshots and the CatWay previews rendered from the project's original JavaFX views. See [CatWay preview sources](CATWAY_PREVIEWS.md).
 
-The BarberFlow previews are captures of its [deployed public website](https://barberflow-saas-delta.vercel.app/). The agenda is the public demonstration with sample data, rather than a signed-in owner dashboard. Project links point to the actual repository and demo.
+The Compasso homepage preview is a capture from a local production build of the [public website](https://compasso-pt.vercel.app/). The private calendar preview comes from an automated test with sample data. Project links point to the actual repository and demo.
 
 
 See [third-party credits and licenses](../THIRD_PARTY_LICENSES.md) for asset attribution.

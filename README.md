@@ -10,11 +10,11 @@ I'm a second-year Computer Engineering student at ISEP, having entered through c
 
 ## A conversation that became a project
 
-**BarberFlow** started with a conversation with a barber about managing appointments through messages and a manual diary.
+**Compasso** started with a conversation with a barber about managing appointments through messages and a manual diary.
 
-I built a platform where barbershops can set their services and availability, let customers book online and manage appointments in a private dashboard. It's a functional MVP for a controlled beta, with development continuing through client feedback.
+I built a platform where small service businesses can set their services and availability, share a booking page and manage appointments in a private calendar. It's a functional MVP for a controlled beta, with development continuing through client feedback.
 
-[Open the website](https://barberflow-saas-delta.vercel.app/) · [Explore the project](https://github.com/AndreLeal-L2/barberflow-saas)
+[Open the website](https://compasso-pt.vercel.app/) · [Explore the project](https://github.com/AndreLeal-L2/barberflow-saas)
 
 ## CatWay: academic teamwork
 

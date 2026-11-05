@@ -6,14 +6,14 @@ document.querySelector('#year').textContent = new Date().getFullYear();
 
 const barberflowPreviews = {
   home: {
-    src: 'barberflow-home-current.jpg',
-    alt: 'Current BarberFlow website with its blue and white branding and online booking introduction',
+    src: 'compasso-home.jpg',
+    alt: 'Compasso website in dark mode introducing online appointment booking',
     caption: 'Current public website',
   },
   agenda: {
-    src: 'barberflow-product-current.jpg',
-    alt: 'BarberFlow public product preview showing its daily agenda with sample appointments',
-    caption: 'Illustrative agenda preview · Sample data',
+    src: 'compasso-agenda.jpg',
+    alt: 'Compasso calendar in dark mode showing a test appointment and a blocked time slot',
+    caption: 'Private calendar · Test data',
   },
 };
 const barberflowPreviewButtons = document.querySelectorAll('[data-barberflow-view]');
@@ -274,23 +274,23 @@ terminalInput.addEventListener('keydown', e => {
 
 const projectData = {
   barberflow: {
-    title: 'BarberFlow',
+    title: 'Compasso',
     label: 'CLIENT-INSPIRED PROJECT · FUNCTIONAL MVP',
-    description: 'A conversation with a barber became a project. The challenge was to simplify booking management and reduce reliance on messages and a manual diary. I built a platform where each barbershop can configure services and availability, share a booking page and manage its operation in a private dashboard.',
+    description: 'A conversation with a barber became a project. The challenge was to simplify booking management and reduce reliance on messages and a manual diary. I built a platform where small service businesses can configure services and availability, share a booking page and manage appointments in a private calendar. Customers choose a service and time and provide their details without creating an account.',
     tags: ['Java 21', 'Spring Boot', 'Angular', 'TypeScript', 'PostgreSQL'],
     sections: [
       { title: 'Engineering behind a booking', items: [
         'Preventing double booking in concurrent requests using transactions and pessimistic locking.',
-        'Enforcing tenant isolation so each barbershop can access only its own data.',
+        'Enforcing tenant isolation so each business can access only its own data.',
         'Implementing Spring Security authentication with persisted sessions, HttpOnly cookies and CSRF protection.',
         'Preserving booking history with snapshots of service prices and durations.',
         'Delivering email notifications through a Transactional Outbox with retries.',
       ] },
       { title: 'Testing and delivery', text: 'JUnit, Mockito, Testcontainers and Vitest support the project’s evolution. Docker and GitHub Actions pipelines cover tests, builds and security analysis with CodeQL and Trivy.' },
-      { title: 'Current stage', text: 'BarberFlow is a functional MVP for a controlled beta. Development continues, guided by client feedback. As a Computer Engineering student at ISEP, I have used the project to deepen my Java Full Stack skills and follow a solution from requirements through implementation and maintenance.' },
+      { title: 'Current stage', text: 'Compasso is a functional MVP for a controlled beta. Development continues, guided by client feedback. As a Computer Engineering student at ISEP, I have used the project to deepen my Java Full Stack skills and follow a solution from requirements through implementation and maintenance.' },
     ],
     links: [
-      { label: 'Open website', href: 'https://barberflow-saas-delta.vercel.app/' },
+      { label: 'Open website', href: 'https://compasso-pt.vercel.app/' },
       { label: 'Source code', href: 'https://github.com/AndreLeal-L2/barberflow-saas' },
     ],
   },
